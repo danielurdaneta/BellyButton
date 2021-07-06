@@ -1,21 +1,36 @@
-d3.json('samples.json').then(data => {
-    wfreq = data.metadata.map(person => person.wfreq).sort((a,b) => b - a);
-    filteredWfrew = wfreq.filter(data => data != null)
-    
-})
+function init(){
+    var selector = d3.select('#selDataset');
 
-d3.json('samples.json').then(data => {
-    firstPerson = Object.entries(data.metadata[0]).forEach(([key,value]) => console.log(key + ':' + value))
-    console.log(data)
-})
+    d3.json('samples.json').then((data) => {
+        console.log(data)
+        var sampleNames = data.names;
+        sampleNames.forEach(sample => {
+            selector
+                .append("option")
+                .text(sample)
+                .property('value', sample)
+        })
+    })
 
-d3.selectAll('body').on("change", updatePage)
+}
+init()
 
-function updatePage(){
-    var dropDownMenu = d3.selectAll('#selectOption').node()
-    var dropDownMenuID = dropDownMenu.id
-    var selectedOption = dropDownMenu.value
+function optionChanged(newSample){
+    buildMetadata(newSample);
+    buildCharts(newSample);
+}
 
-    console.log(dropDownMenuID);
-    console.log(selectedOption)
+function buildMetadata(sample){
+    d3.json('samples.json').then((data) => {
+        var metaData = data.metadata
+        var resultArray = metaData.filter(sampleObj => sampleObj.id == sample)
+        var result = resultArray[0]
+        var PANEL = d3.select("#sample-metadata")
+
+        PANEL.html("")
+
+        Object.entries(result).forEach(([key,value]) => {
+
+        PANEL.append("h6").text(key.toUpperCase() + ' : ' + value)})
+    });
 }
