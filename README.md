@@ -4,4 +4,4 @@ This project was created by Improbable Beef which looked for subjects with high 
 
 Following is the link to the dashboard's page:
 
-https://danielurdaneta.github.io/Belly_button_biodiversity/
+https://danielurdaneta.github.io/BellyButton/
